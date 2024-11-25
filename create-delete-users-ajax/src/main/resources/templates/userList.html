@@ -8,9 +8,10 @@
 </head>
 <body>
 
-<!-- Include the header fragment at the top -->
-<div th:replace="fragments/header.html :: content"
-     th:with="page='userList', pageTitle='User List Page'"></div>
+<!-- Include the header fragment -->
+<!--<div th:replace="fragments/header2 :: content"></div>
+<div th:replace="fragments/header :: header" th:with="page='about'"></div>-->
+<div th:replace="fragments/header :: header" th:with="page='userList'"></div>
 
 <!-- Main content of the User List page -->
 <div class="container mt-5">

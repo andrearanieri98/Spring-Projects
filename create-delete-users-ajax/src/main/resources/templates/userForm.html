@@ -8,6 +8,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<div th:replace="fragments/header :: header" th:with="page='userForm'"></div>
+
 <div th:fragment="content">
     <div class="container vh-100 d-flex justify-content-center align-items-center">
         <div class="row w-100">
@@ -38,8 +41,8 @@
     </div>
 </div>
 
-<div th:replace="fragments/header :: content"
-     th:with="page='userList', pageTitle='User List Page'"></div>
+<!--<div th:replace="fragments/header :: content"-->
+<!--     th:with="page='userList', pageTitle='User List Page'"></div>-->
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
