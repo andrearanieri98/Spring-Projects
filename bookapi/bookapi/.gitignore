@@ -1,0 +1,49 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Build output
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Logs
+*.log
+logs/
+
+# Environment and secrets
+.env
+*.env
+
+# IDEs
+
+## IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+## Spring Tool Suite
+.apt_generated/
+.factorypath/
+.springBeans/
+.sts4-cache/
+
+## Eclipse
+.classpath
+.project
+.settings/
+
+## VS Code
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Others
+*.class
+hs_err_pid*
