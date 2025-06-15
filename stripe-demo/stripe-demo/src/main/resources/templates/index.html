@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagamento con Stripe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="bg-white shadow-lg rounded-xl p-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Pagamento con carta</h2>
+    <form id="payment-form" class="space-y-4">
+        <div id="card-element" class="border p-4 rounded-md shadow-inner bg-gray-50"></div>
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
+            Paga €10
+        </button>
+    </form>
+    <div id="payment-result" class="mt-4 text-center text-sm text-gray-700"></div>
+</div>
+
+<script th:inline="javascript">
+    const stripe = Stripe([[${stripePublicKey}]]);
+    const elements = stripe.elements();
+
+    const style = {
+        base: {
+            color: "#32325d",
+            fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#a0aec0"
+            }
+        },
+        invalid: {
+            color: "#e53e3e",
+            iconColor: "#e53e3e"
+        }
+    };
+
+    const cardElement = elements.create('card', {style: style});
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    const resultDiv = document.getElementById('payment-result');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const res = await fetch('/create-payment-intent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({amount: 1000, currency: 'eur'}) // €10.00
+        });
+
+        const data = await res.json();
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+            payment_method: {
+                card: cardElement
+            }
+        });
+
+        if (error) {
+            resultDiv.textContent = 'Errore: ' + error.message;
+            resultDiv.classList.add("text-red-600");
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            resultDiv.textContent = ' Pagamento riuscito!';
+            resultDiv.classList.remove("text-red-600");
+            resultDiv.classList.add("text-green-600");
+        }
+    });
+</script>
+</body>
+</html>
